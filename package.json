@@ -1,22 +1,33 @@
 {
-  "name": "electron-quick-start",
+  "name": "desktop-search-electron-elasticsearch",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
+  "description": "Electron desktop search application",
+  "main": "app/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager . $npm_package_productName --out=dist --ignore='^/dist$' --prune --asar --all --version=$npm_package_electronVersion"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
+    "elasticsearch",
+    "desktop search",
+    "file search",
+    "desktop",
+    "search",
     "tutorial",
-    "demo"
+    "indexing"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "armamut",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "electron-packager": "^8.5.2"
+  },
+  "dependencies": {
+    "async": "^2.1.5",
+    "elasticsearch": "^12.1.3",
+    "electron-config": "^0.2.1",
+    "textract": "^2.1.1"
   }
 }

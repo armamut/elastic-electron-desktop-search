@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style> ::selection { background:rgba(255, 255, 125, 0.99) color:#032764; } </style>
+
+    <title>DsktpSrchr®</title>
+    <!-- Insert this line above script imports  -->
+    <!-- http://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script type="text/javascript" src="static/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="static/underscore-min.js"></script>
+    <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script src="static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <!-- Insert this line after script imports -->
+    <script>if (window.module) module = window.module;</script>
+
+    <link rel="shortcut icon" type="image/png" href="static/favicon/favicon-32x32.png?v=2" />
+    <link href="index.css" rel="stylesheet">
+</head>
+<body>
+<div class="top_bar">
+<div class="top_bar_content">
+    <div class="top_logo">
+        <span style="color:#4285f4">
+        DsktpSrchr<sup style="font-size: 0.6em;">®</sup>
+        </span>
+        <br><span style="font-size: 0.6em;color:#666">By Arma Değer Mut (2017)</span>
+    </div>
+
+    <div class="top_search_box">
+        <span class="icon_search">
+        <!-- Fontawesome https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/fonts/fontawesome-webfont.svg -->
+        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792">
+        <path d="M1152 704q0 185 -131.5 316.5t-316.5 131.5t-316.5 -131.5t-131.5 -316.5t131.5 -316.5t316.5 -131.5t316.5 131.5t131.5 316.5zM1664 -128q0 -52 -38 -90t-90 -38q-54 0 -90 38l-343 342q-179 -124 -399 -124q-143 0 -273.5 55.5t-225 150t-150 225t-55.5 273.5
+t55.5 273.5t150 225t225 150t273.5 55.5t273.5 -55.5t225 -150t150 -225t55.5 -273.5q0 -220 -124 -399l343 -343q37 -37 37 -90z" transform="scale(1,-1) translate(0,-1152)"></path>
+        </svg>
+        </span>
+        <span class="q">
+            <input type="text" class="q" id="q" name="q" value="">
+        </span>
+    </div>
+
+    <span id="progress_indicator" class="icon_cog" data-toggle="tooltip" data-placement="bottom" title="İndeks durumu" data-delay="{'show':500, 'hide':100}">
+        <div id="circle_progress" style="color: #4285f4;">
+            <!-- http://stackoverflow.com/questions/21205652/how-to-draw-a-circle-sector-in-css -->
+            <svg id="progress" viewBox="0 0 24 24" width="20px" height="20px" style="display: none;">
+                <circle cx="12" cy="12" r="10" style="fill: none; stroke: currentColor; stroke-width: 2;"></circle>
+                <path id="progress_circle" d="M12,12 L12,2 A10,10 1 0,1 22,12 z" style="fill: currentColor;"></path>
+            </svg>
+            <!-- https://codepen.io/aurer/pen/jEGbA -->
+            <svg id="spinner" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50; stroke: currentColor; display: none;" xml:space="preserve">
+                <path d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
+                </path>
+            </svg>
+
+            <svg id="checkmark" class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
+
+        </div>
+    </span>
+
+    <a id="settings_button" data-toggle="tooltip" data-placement="bottom" title="İndeks ayarları">
+        <span class="icon_cog">
+        <!-- Fontawesome https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/fonts/fontawesome-webfont.svg -->
+            <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792" width="100%" height="100%">
+            <g transform="matrix(1,0,0,-1,121.49153,1285.4237)" id="g3027">
+                 <path d="M1024 640q0 106 -75 181t-181 75t-181 -75t-75 -181t75 -181t181 -75t181 75t75 181zM1536 749v-222q0 -12 -8 -23t-20 -13l-185 -28q-19 -54 -39 -91q35 -50 107 -138q10 -12 10 -25t-9 -23q-27 -37 -99 -108t-94 -71q-12 0 -26 9l-138 108q-44 -23 -91 -38 q-16 -136 -29 -186q-7 -28 -36 -28h-222q-14 0 -24.5 8.5t-11.5 21.5l-28 184q-49 16 -90 37l-141 -107q-10 -9 -25 -9q-14 0 -25 11q-126 114 -165 168q-7 10 -7 23q0 12 8 23q15 21 51 66.5t54 70.5q-27 50 -41 99l-183 27q-13 2 -21 12.5t-8 23.5v222q0 12 8 23t19 13 l186 28q14 46 39 92q-40 57 -107 138q-10 12 -10 24q0 10 9 23q26 36 98.5 107.5t94.5 71.5q13 0 26 -10l138 -107q44 23 91 38q16 136 29 186q7 28 36 28h222q14 0 24.5 -8.5t11.5 -21.5l28 -184q49 -16 90 -37l142 107q9 9 24 9q13 0 25 -10q129 -119 165 -170q7 -8 7 -22 q0 -12 -8 -23q-15 -21 -51 -66.5t-54 -70.5q26 -50 41 -98l183 -28q13 -2 21 -12.5t8 -23.5z">
+                 </path>
+                 </g>
+            </svg>
+        </span>
+    </a>
+
+</div>
+<div class="content">
+    <div id="results"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="settings_modal" tabindex="-1" role="dialog" aria-labelledby="settings_modal_label" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="settings_modal_label">İndekslenecek Klasörler</h4>
+      </div>
+      <div class="modal-body" id="settings_modal_body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+        <button type="button" id="modal_save_button" class="btn btn-primary">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page script -->
+<script src="index.js"></script>
+</body>
