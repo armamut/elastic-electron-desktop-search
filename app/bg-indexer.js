@@ -1,12 +1,11 @@
+'use strict'
 
 const {ipcRenderer} = require('electron')
 const remote = require('electron').remote
-const async = require('async');
-const textract = require('textract');
+const async = require('async')
+const textract = require('textract')
+const elastic = require('./elasticsearch-client.js')
 var fs = require('fs')
-
-// Elastic search -----------------------------------------------
-var elastic = require('./elasticsearch-client.js');
 
 // -----------------------------------------------
 
@@ -24,14 +23,15 @@ var indexDocuments = function() {
         textract.fromFileWithPath(path, callback)
     }
 
-    // var process_PDF = function(path, callback) {
-    //     textract.fromFileWithPath(path, callback)
-    // }
+    var process_PDF = function(path, callback) {
+        textract.fromFileWithPath(path, callback)
+    }
 
     const extensions = {
         'txt': process_TXT,
-    //    'pdf': process_PDF
+        'pdf': process_PDF,
         'doc': process_DOC,
+        'rtf': process_DOC,
         'docx': process_DOCX
     }
 
@@ -62,7 +62,7 @@ var indexDocuments = function() {
 
         elastic.documentExists(p.path).then( function (exists) {
             console.log(exists)
-            if (!exists){
+            if (!exists) {
 
                 // Doc does not exist. Process and add doc.
                 var re = /(?:\.([^.]+))?$/
@@ -77,7 +77,7 @@ var indexDocuments = function() {
                         //document.write(data)
 
                         elastic.addDocument({
-                            id: p.path,
+                            id: encodeURI(p.path),
                             title: p.filename,
                             mtime: p.stats.mtime,
                             content: data
@@ -103,7 +103,7 @@ var indexDocuments = function() {
 
 
     }, function (err) {
-        if (err) console.error(err.message);
+        if (err) console.error(err.message)
         ipcRenderer.send('indexer-message', 'Index ready.')
         ipcRenderer.send('indexer-progress', [paths.length, paths.length])
         Promise.resolve(true)

@@ -1,12 +1,19 @@
+'use strict'
 
-var elasticsearch = require('elasticsearch');
+const elasticsearch = require('elasticsearch')
 
-var elasticClient = new elasticsearch.Client({
-    host: 'http://localhost:9200',
-    log: 'trace'
-});
+const elasticClient = new elasticsearch.Client({
+    host: 'http://localhost:9200'//, log: 'trace'
+})
 
-var indexName = 'dsktpsrch';
+const indexName = 'dsktpsrch'
+
+/*function health() {
+    return client.cluster.health({},function(err,resp,status) {  
+      console.log("-- Client Health --",resp)
+    })
+}*/
+
 
 /**
 * Delete an existing index
@@ -14,9 +21,9 @@ var indexName = 'dsktpsrch';
 function deleteIndex() {
     return elasticClient.indices.delete({
         index: indexName
-    });
+    })
 }
-exports.deleteIndex = deleteIndex;
+exports.deleteIndex = deleteIndex
 
 /**
 * create the index
@@ -24,9 +31,9 @@ exports.deleteIndex = deleteIndex;
 function initIndex() {
     return elasticClient.indices.create({
         index: indexName
-    });
+    })
 }
-exports.initIndex = initIndex;
+exports.initIndex = initIndex
 
 /**
 * check if the index exists
@@ -34,9 +41,9 @@ exports.initIndex = initIndex;
 function indexExists() {
     return elasticClient.indices.exists({
         index: indexName
-    });
+    })
 }
-exports.indexExists = indexExists;
+exports.indexExists = indexExists
 
 /**
 * init mapping
@@ -47,18 +54,21 @@ function initMapping() {
         type: "document",
         body: {
             properties: {
-                title: { type: "string" },
-                content: { type: "string" },
-                suggest: {
-                    type: "completion",
-                    analyzer: "simple",
-                    search_analyzer: "simple"
+                title: {
+                    type: 'string'
+                },
+                mtime: {
+                    type: 'date'
+                },
+                content: {
+                    type: 'text',
+                    analyzer: 'turkish'
                 }
             }
         }
-    });
+    })
 }
-exports.initMapping = initMapping;
+exports.initMapping = initMapping
 
 function addDocument(document) {
     return elasticClient.index({
@@ -68,29 +78,25 @@ function addDocument(document) {
         body: {
             title: document.title,
             mtime: document.mtime,
-            content: document.content,
-            suggest: {
-                input: document.title.split(" ")
-            }
+            content: document.content
         }
-    });
+    })
 }
-exports.addDocument = addDocument;
+exports.addDocument = addDocument
 
 function documentExists(path) {
     return elasticClient.exists({
         index: indexName,
         type: "document",
         id: path
-    });
+    })
 }
-exports.documentExists = documentExists;
+exports.documentExists = documentExists
 
 
 function getSuggestions(input) {
     return elasticClient.suggest({
         index: indexName,
-        type: "document",
         body: {
             docsuggest: {
                 text: input,
@@ -102,4 +108,30 @@ function getSuggestions(input) {
         }
     })
 }
-exports.getSuggestions = getSuggestions;
+exports.getSuggestions = getSuggestions
+
+
+function search(query) {
+
+    return elasticClient.search({
+        index: indexName,
+        body: {
+            query: {
+                match: {
+                    content: {
+                        query: query,
+                        operator: "and"
+                    }
+                }
+            },
+            highlight: {
+                fields: {
+                    content: {}
+                }
+            }
+        }
+    })
+
+}
+exports.search = search
+

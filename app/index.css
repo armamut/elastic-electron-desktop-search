@@ -20,6 +20,10 @@ li > a:hover {
     color: #1a0dab;
 }
 
+li > a.small_link {
+    font-size: 12px;
+}
+
 li {
     margin-bottom: 20px;
 }
