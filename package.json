@@ -21,7 +21,7 @@
   "author": "armamut",
   "license": "MIT",
   "devDependencies": {
-    "npm": "^3.10.10",
+    "npm": "^6.13.4",
     "electron": "^1.4.1",
     "electron-packager": "^8.5.2"
   },
